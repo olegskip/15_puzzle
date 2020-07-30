@@ -12,7 +12,6 @@ public:
 
 	const QPoint startRelPos;
 	QPoint currentRelPos() const;
-	void moveRelPos(QPoint newPosition);
 	void setRelPos(QPoint newPosition);
 	const bool isEmpty;
 	const unsigned int number;

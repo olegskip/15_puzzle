@@ -4,18 +4,18 @@
 #include "config.h"
 
 #include <QRandomGenerator>
-#include <QHBoxLayout>
-#include <QVBoxLayout>
-#include <QPointer>
+#include <QSharedPointer>
+#include <QMessageBox>
+#include <QDateTime>
+#include <QKeyEvent>
 #include <QWidget>
 #include <QVector>
 #include <QDebug>
 #include <QTimer>
 #include <QTime>
-#include <QDateTime>
 
 
-class MainWindow : public QWidget
+class MainWindow: public QWidget
 {
 	Q_OBJECT
 
@@ -23,11 +23,25 @@ public:
 	MainWindow(QWidget *parent = nullptr);
 	~MainWindow();
 
-private:
-	QVector<QPointer<PuzzleItem>> puzzleItems; // one must be empty
 
-	void shuffle(QVector<QPointer<PuzzleItem>> &puzzleItemsRef);
-	void swap(QVector<QPointer<PuzzleItem>> &puzzleItemsRef, QPointer<PuzzleItem> firstPuzzleItem, QPointer<PuzzleItem> secondPuzzleItem);
+private:
+	QVector<QSharedPointer<PuzzleItem>> puzzleItems; // one must be empty
+	QSharedPointer<PuzzleItem> emptyPuzzleItem;
+
+	void shuffle(QVector<QSharedPointer<PuzzleItem>> &puzzleItemsRef);
+	void swap(QSharedPointer<PuzzleItem> firstPuzzleItem, QSharedPointer<PuzzleItem> secondPuzzleItem);
 	QTimer timer;
 	QTime stopwatch;
+
+	QSharedPointer<PuzzleItem> getPuzzleItem(unsigned int number);
+	QSharedPointer<PuzzleItem> getPuzzleItem(QPoint relPos);
+
+	bool isGameOver();
+	bool isGameStopped = false;
+
+	void restart();
+	void keyPressEvent(QKeyEvent *event) override;
+
+private slots:
+	void onPuzzeItemClicked(QSharedPointer<PuzzleItem> &puzzleItem);
 };

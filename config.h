@@ -2,5 +2,5 @@
 
 namespace config
 {
-	const unsigned int sideSize = 100;
+	const unsigned int sideSize = 110;
 }
